@@ -4,6 +4,51 @@ import { api, errorMessage, unwrap } from "../../api/client";
 import { useAuth } from "../../auth/AuthContext";
 import type { Faculty, FacultyLeave, SubjectAllocation } from "../../api/types";
 import { Button, Card, ErrorText, Field, Input, PageHeader, Select, StatusBadge, SuccessText } from "../../components/ui";
+import { useBatches, useBatchSubjects } from "../../hooks/useCatalog";
+import { FormCard } from "../../components/FormCard";
+
+function AllocateSubject({ facultyId, onDone }: { facultyId: string; onDone: () => void }) {
+  const batches = useBatches();
+  const [batchId, setBatchId] = useState("");
+  const subjects = useBatchSubjects(batchId);
+  const [error, setError] = useState<string | null>(null);
+  const [ok, setOk] = useState<string | null>(null);
+  const year = `${new Date().getFullYear()}-${new Date().getFullYear() + 1}`;
+  return (
+    <Card className="mt-4">
+      <h2 className="mb-3 text-sm font-semibold text-slate-900">Allocate a subject</h2>
+      <ErrorText message={error} />
+      <SuccessText message={ok} />
+      <div className="mb-3">
+        <Field label="Batch">
+          <Select value={batchId} onChange={(e) => setBatchId(e.target.value)}>
+            <option value="">Select batch</option>
+            {batches.options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+          </Select>
+        </Field>
+      </div>
+      {batchId && (
+        <FormCard plain key={batchId} submitLabel="Allocate"
+          fields={[
+            { name: "subjectId", label: "Subject", type: "select", required: true, options: subjects.options },
+            { name: "academicYear", label: "Academic year", required: true, defaultValue: year },
+          ]}
+          onSubmit={async (v) => {
+            setError(null); setOk(null);
+            try {
+              await api.post("/faculty/allocations", { ...v, facultyId, batchId: Number(batchId) });
+              setOk("Subject allocated.");
+              onDone();
+              return true;
+            } catch (e) {
+              setError(errorMessage(e));
+              return undefined;
+            }
+          }} />
+      )}
+    </Card>
+  );
+}
 
 export function FacultyDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -101,6 +146,7 @@ export function FacultyDetailPage() {
               </li>
             ))}
           </ul>
+          {hasRole("SUPER_ADMIN", "COLLEGE_ADMIN", "HOD") && !isSelf && <AllocateSubject facultyId={faculty.id} onDone={load} />}
         </Card>
       </div>
 

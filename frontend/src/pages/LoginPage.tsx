@@ -80,7 +80,10 @@ export function LoginPage() {
           </form>
         )}
 
-        <p className="mt-6 text-center text-sm text-slate-500">
+        <p className="mt-4 text-center text-sm">
+          <Link to="/forgot-password" className="font-medium text-indigo-600 hover:underline">Forgot your password?</Link>
+        </p>
+        <p className="mt-4 text-center text-sm text-slate-500">
           New student or parent?{" "}
           <Link to="/register" className="font-medium text-indigo-600 hover:underline">
             Create an account

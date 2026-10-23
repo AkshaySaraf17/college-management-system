@@ -5,7 +5,8 @@ A web application for running a college: admissions, students, faculty, courses,
 Screenshots and fuller documentation are in [`docs/`](docs/):
 
 - [Project documentation](docs/PROJECT_DOCUMENTATION.md)
-- [Status report](docs/STATUS_REPORT.md)
+- [Final status report](docs/STATUS_REPORT.md)
+- [Weekly progress report](docs/WEEKLY_PROGRESS_REPORT.md)
 - [Screenshots](docs/screenshots/)
 
 ![Student dashboard](docs/screenshots/04-student-dashboard.png)
@@ -103,4 +104,5 @@ docs/         documentation and screenshots
 - Notifications are shown in the app only. Emails are sent only for OTP codes, and only if SMTP is configured. There is no SMS.
 - Uploaded files are stored on local disk and can be downloaded by any signed-in user who has the file's identifier.
 - The system serves a single college.
+- Some server features have no screen yet: verifying faculty documents, marking faculty attendance, assigning a head of department, and editing a student's personal details.
 - Role changes take effect at the user's next sign-in. Suspending a user takes effect immediately.

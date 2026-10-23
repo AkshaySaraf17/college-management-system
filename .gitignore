@@ -1,0 +1,32 @@
+# Local dev database (created by this project's setup, not portable)
+.devdb/
+.devdb-run/
+
+# Backend (Maven / Java)
+backend/target/
+*.class
+
+# Frontend (Node / Vite)
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
+frontend/*.local
+
+# AI service (Python)
+ai-service/__pycache__/
+ai-service/.venv/
+ai-service/*.pyc
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.iml
+uploads/
+
+.env

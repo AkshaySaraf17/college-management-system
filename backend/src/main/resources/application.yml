@@ -1,0 +1,66 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: college-management-system
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:college_db}
+    username: ${DB_USER:college_app}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+        jdbc:
+          time_zone: UTC
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 12MB
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+  mail:
+    host: ${MAIL_HOST:localhost}
+    port: ${MAIL_PORT:1025}
+    username: ${MAIL_USER:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+app:
+  bootstrap:
+    admin-email: ${BOOTSTRAP_ADMIN_EMAIL:admin@college.edu}
+    admin-password: ${BOOTSTRAP_ADMIN_PASSWORD:}
+  upload-dir: ${UPLOAD_DIR:./uploads}
+  ai:
+    url: ${AI_SERVICE_URL:http://localhost:8000}
+  library:
+    fine-per-day: 2.00
+  jwt:
+    secret: ${JWT_SECRET}
+    access-token-ttl-minutes: 30
+    refresh-token-ttl-days: 7
+  otp:
+    ttl-minutes: 10
+    log-codes: ${OTP_LOG_CODES:false}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173}
+
+springdoc:
+  swagger-ui:
+    path: /docs
+
+logging:
+  level:
+    com.cms.backend: DEBUG
